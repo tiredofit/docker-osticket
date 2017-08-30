@@ -17,7 +17,7 @@ MAINTAINER Dave Conroy <dave at tiredofit dot ca>
           && \
 
 ## Install Memcached Extenstion
-  RUN BUILD_DEPS=" \
+      BUILD_DEPS=" \
       autoconf \
       build-base \
       cyrus-sasl-dev \
@@ -55,11 +55,11 @@ MAINTAINER Dave Conroy <dave at tiredofit dot ca>
     chmod 700 /assets/osticket/upload/setup_hidden && \
 
 # Download LDAP plugin
-      wget -nv -O /assets/osticket/upload/include/plugins/auth-ldap.phar http://osticket.com/sites/default/files/download/plugin/auth-ldap.phar && \
+    wget -nv -O /assets/osticket/upload/include/plugins/auth-ldap.phar http://osticket.com/sites/default/files/download/plugin/auth-ldap.phar && \
 
 ### Log Miscellany Installation
    touch /var/log/msmtp.log && \
-      chown nginx:www-data /var/log/msmtp.log
+   chown nginx:www-data /var/log/msmtp.log
 
 ### Add Files
    ADD install /
