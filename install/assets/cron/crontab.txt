@@ -1,0 +1,1 @@
+*/<CRON_PERIOD> * * * * php -q -d /www/osticket/upload/api/cron.php >/dev/null 2>&1
