@@ -1,5 +1,5 @@
 FROM tiredofit/nginx-php-fpm:7.0-latest
-MAINTAINER Dave Conroy <dave at tiredofit dot ca>
+LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
 
 ### Default Runtime Environment Variables
   ENV OSTICKET_VERSION=1.10 \
