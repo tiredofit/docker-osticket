@@ -1,4 +1,4 @@
-FROM tiredofit/nginx-php-fpm:7.0-latest
+FROM tiredofit/nginx-php-fpm:5.6-latest
 LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
 
 ### Default Runtime Environment Variables
@@ -23,21 +23,21 @@ LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
       cyrus-sasl-dev \
       git \
       libmemcached-dev \
-      php7-dev \
-      php7-pear \
+      php5-dev \
+      php5-pear \
       sed \
       tar \
       zlib-dev" && \
 
       apk add ${BUILD_DEPS} && \
       cd /tmp && \
-      git clone -b php7 https://github.com/php-memcached-dev/php-memcached && \
-      cd php-memcached && \
-      phpize7 && \ 
-      ./configure --with-php-config=/usr/bin/php-config7 --disable-memcached-sasl && \
+      git clone -b REL2_0 https://github.com/php-memcached-dev/php-memcached && \
+      cd /tmp/php-memcached && \
+      phpize && \
+      ./configure --with-php-config=/usr/bin/php-config --disable-memcached-sasl && \
       make && \
       make install && \
-      echo 'extension=memcached.so' >> /etc/php7/conf.d/20_memcached.ini && \
+      echo 'extension=memcached.so' >> /etc/php5/conf.d/20_memcached.ini && \
       apk del ${BUILD_DEPS} && \
       rm -rf /var/cache/apk/* /tmp/* && \
 

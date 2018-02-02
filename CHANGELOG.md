@@ -1,3 +1,11 @@
+## 2.7 2018-02-01 <dave at tiredofit dot ca>
+
+* Rebase
+
+## 2.6 2017-10-05 <dave at tiredofit dot ca>
+
+* Fix Broken Detection of new install
+
 ## 2.5 2017-08-29 <dave at tiredofit dot ca>
 
 * Image Cleanup
