@@ -1,3 +1,8 @@
+## 2.8 2018-02-01 <dave at tiredofit dot ca>
+
+* Pull sources from Github instead of mainwebsite
+* Compile auth-ldap plugin
+
 ## 2.7 2018-02-01 <dave at tiredofit dot ca>
 
 * Rebase

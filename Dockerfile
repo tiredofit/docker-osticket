@@ -2,16 +2,18 @@ FROM tiredofit/nginx-php-fpm:5.6-latest
 LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
 
 ### Default Runtime Environment Variables
-  ENV OSTICKET_VERSION=1.10 \
+  ENV OSTICKET_VERSION=1.10.1 \
       PHP_ENABLE_IMAP=TRUE
 
 ### Dependency Installation
   RUN apk update && \
       apk add \
+          git \
           libmemcached-libs \
           msmtp \
           openldap \
           openssl \
+          tar \
           wget \
           zlib \
           && \
@@ -21,12 +23,9 @@ LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
       autoconf \
       build-base \
       cyrus-sasl-dev \
-      git \
       libmemcached-dev \
       php5-dev \
       php5-pear \
-      sed \
-      tar \
       zlib-dev" && \
 
       apk add ${BUILD_DEPS} && \
@@ -44,7 +43,7 @@ LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
 ### Download & Prepare OSTicket for Install
     mkdir -p /assets/osticket && \
     cd /assets/osticket && \
-    wget -nv -O osTicket.zip http://osticket.com/sites/default/files/download/osTicket-v${OSTICKET_VERSION}.zip && \
+    wget -nv -O osTicket.zip https://github.com/osTicket/osTicket/releases/download/v${OSTICKET_VERSION}/osTicket-v${OSTICKET_VERSION}.zip && \
     unzip osTicket.zip && \
     rm osTicket.zip && \
     chown -R nginx:www-data /assets/osticket/upload/ && \
@@ -55,8 +54,19 @@ LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
     chmod 700 /assets/osticket/upload/setup_hidden && \
 
 # Download LDAP plugin
-    wget -nv -O /assets/osticket/upload/include/plugins/auth-ldap.phar http://osticket.com/sites/default/files/download/plugin/auth-ldap.phar && \
-
+    cd /usr/src && \
+    git clone https://github.com/osTicket/osTicket-plugins && \
+    cd osTicket-plugins && \
+    mv /etc/php5/conf.d/opcache.ini /tmp && \
+    mv /etc/php5/php.ini /tmp && \
+    php make.php hydrate && \
+    php -dphar.readonly=0 make.php build auth-ldap && \
+    mv /tmp/opcache.ini /etc/php5/conf.d/opcache.ini && \
+    mv /tmp/php.ini /etc/php5/php.ini && \
+    cp -R /usr/src/osTicket-plugins/auth-ldap.phar /assets/osticket/upload/include/plugins/ && \  
+    cd / && \
+    rm -rf /usr/src/osTicket-plugins && \
+     
 ### Log Miscellany Installation
    touch /var/log/msmtp.log && \
    chown nginx:www-data /var/log/msmtp.log
