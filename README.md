@@ -1,5 +1,11 @@
 # hub.docker.com/tiredofit/osticket
 
+[![Build Status](https://img.shields.io/docker/build/tiredofit/osticket.svg)](https://hub.docker.com/r/tiredofit/osticket)
+[![Docker Pulls](https://img.shields.io/docker/pulls/tiredofit/osticket.svg)](https://hub.docker.com/r/tiredofit/osticket)
+[![Docker Stars](https://img.shields.io/docker/stars/tiredofit/osticket.svg)](https://hub.docker.com/r/tiredofit/osticket)
+[![Docker Layers](https://images.microbadger.com/badges/image/tiredofit/osticket.svg)](https://microbadger.com/images/tiredofit/osticket)
+[![Image Size](https://img.shields.io/microbadger/image-size/tiredofit/osticket.svg)](https://microbadger.com/images/tiredofit/osticket)
+
 # Introduction
 
 Dockerfile to build a [OSTicket] container image.
