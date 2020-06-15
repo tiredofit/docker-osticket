@@ -1,0 +1,66 @@
+#!/usr/bin/with-contenv bash
+
+source /assets/functions/00-container
+prepare_service
+PROCESS_NAME="osticket"
+
+check_service_initialized init 20-php-fpm
+
+### Sanity Test
+sanity_db
+sanity_var ADMIN_PASS "Admin Password"
+sanity_var ADMIN_EMAIL "Admin Email"
+sanity_var ADMIN_USER "Admin Username"
+sanity_var INSTALL_SECRET "Install Secret"
+
+db_ready mariadb
+
+### Adjust Runtime Variables
+sed -i -e "s/<CRON_PERIOD>/$CRON_PERIOD/g" /assets/cron/crontab.txt
+sed -i -e "s#<WEBROOT>#${NGINX_WEBROOT}#g" /assets/setup/install.php
+
+### Check to see if this is a new install, if yes copy information from assets create directories...
+if [ ! -f ${NGINX_WEBROOT}/index.php ] ; then
+   print_warn "New OSTicket Installation Detected."
+   mkdir -p ${NGINX_WEBROOT}
+   cp -R /assets/install/* ${NGINX_WEBROOT}/
+   chown -R ${NGINX_USER}:${NGINX_GROUP} ${NGINX_WEBROOT}/
+   chmod -R a+rX ${NGINX_WEBROOT}
+   chmod -R u+rw ${NGINX_WEBROOT}
+   chown -R root:root ${NGINX_WEBROOT}/setup_hidden
+   chmod 700 ${NGINX_WEBROOT}/setup_hidden
+fi
+
+# Automate installation
+silent php /assets/setup/install.php
+
+## Check Memcache Settings
+if [ ${MEMCACHE_HOST:+1} ]; then
+    print_notice "Setting Memcache"
+    sed -i -e "s/# define('SESSION_BACKEND', 'memcache');/define('SESSION_BACKEND', 'memcache');/g" ${NGINX_WEBROOT}/include/ost-config.php
+    sed -i -e "s/# define('MEMCACHE_SERVERS', 'server1:11211,server2:11211');/define('MEMCACHE_SERVERS', '$MEMCACHE_HOST:$MEMCACHE_PORT');/g" ${NGINX_WEBROOT}/include/ost-config.php
+fi
+
+## Proxy Fix
+if [ ${VIRTUAL_HOST:+1} ]; then
+    print_notice "Configuring Reverse Proxy settings"
+    sed -i -e "s/define('TRUSTED_PROXIES', '');/define('TRUSTED_PROXIES', '*');/g" ${NGINX_WEBROOT}/include/ost-config.php
+fi
+
+print_notice "Applying configuration file security"
+chmod 644 ${NGINX_WEBROOT}/include/ost-config.php
+
+#if [ ${ADMIN_PASS:+1} ]; then
+#  	print_notice "Setting Administrative User Password"
+#    mysqlcmd='mysql -u'$DB_USER' -h'$DB_HOST' -p'$DB_PASS' -P'$DB_PORT
+#    $mysqlcmd -e "use "$DB_NAME"; UPDATE "$DB_PREFIX"staff SET passwd = MD5( '"$ADMIN_PASS"' ) WHERE username = '"$ADMIN_USER"';"
+#fi
+
+### Force Reset Permissions for Security
+chown -R ${NGINX_USER}:${NGINX_GROUP} ${NGINX_WEBROOT}
+chmod -R a+rX ${NGINX_WEBROOT}/
+chmod -R u+rw ${NGINX_WEBROOT}/
+chown -R root:root ${NGINX_WEBROOT}/setup_hidden 
+chmod 700 ${NGINX_WEBROOT}/setup_hidden
+
+liftoff

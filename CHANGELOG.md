@@ -1,3 +1,46 @@
+## 3.2.0 2020-06-15 <dave at tiredofit dot ca>
+
+   ### Added
+      - Update to support tiredofit/alpine 5.x.x base images
+
+
+## 3.1.2 2020-01-02 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Switch to php7-pecl-memcached
+
+
+## 3.1.1 2020-01-02 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Additional Changes to support new tiredofit/alpine base image
+
+
+## 3.1.0 2019-12-29 <dave at tiredofit dot ca>
+
+   ### Added
+      - Support new tiredofit/nginx and tireofit/alpine base images
+
+
+## 3.0.2 2019-12-17 <dave at tiredofit dot ca>
+
+   ### Added
+      - OSTicket 1.14.1
+      - Refactored to support new tiredofit/nginx-php-fpm base image
+
+
+## 3.0.1 2019-11-12 <dave at tiredofit dot ca>
+
+* OSTicket 1.14-rc2
+
+## 3.0 2019-09-12 <dave at tiredofit dot ca>
+
+* Modernize Image
+* Added many plugins
+* OSTicket 1.14rc1
+* PHP 7.3
+* Alpine 3.10
+
 ## 2.8 2018-02-01 <dave at tiredofit dot ca>
 
 * Pull sources from Github instead of mainwebsite

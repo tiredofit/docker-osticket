@@ -1,54 +1,48 @@
-version: '2'
-
+version: '3.7'
 services:
+
   osticket-app:
     image: tiredofit/osticket
     container_name: osticket-app
+    labels:
+      - traefik.enable=true
+      - traefik.frontend.rule=Host:url.example.com
+      - traefik.port=80
+      - traefik.protocol=http
+      - traefik.docker.network=proxy
+      - traefik.backend=osticket-app
     volumes:
-    - ./data/:/www/osticket
-    - ./logs/:/www/logs
-    - /etc/localtime:/etc/localtime:ro
+      - ./data/:/www/osticket
+      - ./logs/:/www/logs
     environment:
-    - VIRTUAL_HOST=url.hostname.com
-    - VIRTUAL_NETWORK=nginx-proxy
-    - VIRTUAL_PORT=80
-    - LETSENCRYPT_HOST=url.hostname.com
-    - LETSENCRYPT_EMAIL=user@hostname.com
+      - ZABBIX_HOSTNAME=osticket-app
 
-    - ZABBIX_HOSTNAME=osticket-app
+      - CRON_PERIOD=10
 
-    - PHP_MEMORY_LIMIT=128M
-    - UPLOAD_MAX_SIZE=2G
-    - APC_SHM_SIZE=128M
-    - OPCACHE_MEM_SIZE=128
-    - TIMEZONE=America/Vancouver
+      - DB_HOST=osticket-db
+      - DB_NAME=osticket
+      - DB_USER=osticket
+      - DB_PASS=password
 
-    - CRON_PERIOD=10
+      - SMTP_HOST=localhost
+      - SMTP_PORT=25
+      - SMTP_FROM=osticket@example.com
+      - SMTP_TLS=0
+      - SMTP_USER=osticket@example.com
+      - SMTP_PASS=password
 
-    - DB_HOST=osticket-db
-    - DB_NAME=osticket
-    - DB_USER=osticket
-    - DB_PASS=password
-    - DB_PREFIX=ost_
+      - INSTALL_SECRET=somerandomlargecharacterstring
+      - INSTALL_EMAIL=osticket@example.com
+      - INSTALL_NAME=OSTicket Helpdesk
 
-    - SMTP_HOST=localhost
-    - SMTP_PORT=25
-    - SMTP_FROM=osticket@hostname.com
-    - SMTP_TLS=0
-    - SMTP_USER=osticket@hostname.com
-    - SMTP_PASS=password
-
-    - INSTALL_SECRET=somerandomlargecharacterstring
-    - INSTALL_EMAIL=osticket@hostname.com
-    - INSTALL_NAME=OSTicket Helpdesk
-
-    - ADMIN_FIRSTNAME=Admin
-    - ADMIN_LASTNAME=User
-    - ADMIN_EMAIL=admin@hostname.com
-    - ADMIN_USER=ostadmin
-    - ADMIN_PASS=Password123
+      - ADMIN_FIRSTNAME=Admin
+      - ADMIN_LASTNAME=User
+      - ADMIN_EMAIL=admin@example.com
+      - ADMIN_USER=ostadmin
+      - ADMIN_PASS=Password123
     networks:
-      - proxy-tier
+      - proxy
+      - services
     restart: always
 
   osticket-db:
@@ -56,29 +50,27 @@ services:
     container_name: osticket-db
     volumes:
       - /var/local/db/osticket:/var/lib/mysql
-      - /etc/localtime:/etc/localtime:ro
     environment:
-      - MYSQL_ROOT_PASSWORD=securepassword
-      - MYSQL_DATABASE=osticket
-      - MYSQL_USER=osticket
-      - MYSQL_PASSWORD=password
+      - ROOT_PASS=securepassword
+      - DB_NAME=osticket
+      - DB_USER=osticket
+      - DB_PASS=password
 
       - ZABBIX_HOSTNAME=osticket-db
-
     networks:
-      - proxy-tier
+      - services
     restart: always
 
   osticket-db-backup:
     container_name: osticket-db-backup
     image: tiredofit/mariadb-backup
     links:
-     - osticket-db
+      - osticket-db
     volumes:
       - ./dbbackup:/backup
-      - /etc/localtime:/etc/localtime:ro
     environment:
-      - DB_SERVER=osticket-db
+      - DB_HOST=osticket-db
+      - DB_TYPE=mariadb
       - DB_NAME=osticket
       - DB_USER=osticket
       - DB_PASSWORD=userpassword
@@ -87,11 +79,12 @@ services:
       - DB_CLEANUP_TIME=8640
       - COMPRESSION=BZ
     networks:
-      - proxy-tier
+      - services
     restart: always
 
 networks:
-  proxy-tier:
-    external:
-      name: nginx-proxy
+  proxy:
+    external: true
+  services:
+    external: true
 

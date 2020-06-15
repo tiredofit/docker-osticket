@@ -1,14 +1,8 @@
-# hub.docker.com/tiredofit/osticket
-
-[![Build Status](https://img.shields.io/docker/build/tiredofit/osticket.svg)](https://hub.docker.com/r/tiredofit/osticket)
-[![Docker Pulls](https://img.shields.io/docker/pulls/tiredofit/osticket.svg)](https://hub.docker.com/r/tiredofit/osticket)
-[![Docker Stars](https://img.shields.io/docker/stars/tiredofit/osticket.svg)](https://hub.docker.com/r/tiredofit/osticket)
-[![Docker Layers](https://images.microbadger.com/badges/image/tiredofit/osticket.svg)](https://microbadger.com/images/tiredofit/osticket)
-[![Image Size](https://img.shields.io/microbadger/image-size/tiredofit/osticket.svg)](https://microbadger.com/images/tiredofit/osticket)
+# hub.docker.com/r/tiredofit/osticket
 
 # Introduction
 
-Dockerfile to build a [OSTicket] container image.
+Dockerfile to build a [OSTicket](https://www.osticket.org) container image.
 
 This Container uses Alpine:Edge as a base.
 Additional Components are PHP7 w/ APC, OpCache. MySQL Client is also available
@@ -56,7 +50,7 @@ proxy_pass_header   Set-Cookie;
 Automated builds of the image are available on [Docker Hub](https://hub.docker.com/tiredofit/osticket) and is the recommended method of installation.
 
 ```bash
-docker pull hub.docker.com/tiredofit/osticket
+docker pull tiredofit/osticket
 ```
 
 # Quick Start
@@ -99,11 +93,9 @@ Along with the Environment Variables from the [Base image](https://hub.docker.co
 | `SMTP_TLS` | Should TLS be used (`0`=no `1`=yes) - Default: `1` |
 | `SMTP_USER` | SMTP Authentication user - Default Blank |
 | `SMTP_PASS` | SMTP Authentication password - Default Blank |
-
 | `INSTALL_SECRET` | A Large and Random Installation String (Auto Generates on Install if empty)
 | `INSTALL_EMAIL` | Installer Email (Use different email then ADMIN_EMAIL)
 | `INSTALL_NAME` | Site Name
-
 | `ADMIN_FIRSTNAME` | First name of Admin User
 | `ADMIN_LASTNAME` | Last name of Admin User
 | `ADMIN_EMAIL` | Admin Email address (Make sure it is different than INSTALL_EMAIL)
@@ -116,15 +108,14 @@ The following ports are exposed.
 
 | Port      | Description |
 |-----------|-------------|
-| `80` | HTTP |
+| `80`      | HTTP        |
 
 # Maintenance
 #### Resetting Password
 If you need to reset the OSTicket Admin use this query
 ````
-UPDATE `ost_staff` SET `passwd` = MD5( 'password' ) WHERE `username` = 'sdadmin';
+UPDATE `ost_staff` SET `passwd` = MD5( 'password' ) WHERE `username` = 'ostadmin';
 ````
-
 
 #### Shell Access
 
@@ -137,6 +128,4 @@ docker exec -it (whatever your container name is e.g. osticket) bash
 # References
 
 * https://osticket.org
-* https://www.nginx.org
-* http://www.php.org
 
