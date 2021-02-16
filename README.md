@@ -1,6 +1,6 @@
 # hub.docker.com/r/tiredofit/osticket
 
-# Introduction
+## Introduction
 
 Dockerfile to build a [OSTicket](https://www.osticket.org) container image.
 
@@ -10,11 +10,11 @@ Additional Components are PHP7 w/ APC, OpCache. MySQL Client is also available
 
 [Changelog](CHANGELOG.md)
 
-# Authors
+## Authors
 
 - [Dave Conroy][https://github.com/tiredofit]
 
-# Table of Contents
+## Table of Contents
 
 - [Introduction](#introduction)
     - [Changelog](CHANGELOG.md)
@@ -30,7 +30,7 @@ Additional Components are PHP7 w/ APC, OpCache. MySQL Client is also available
     - [Shell Access](#shell-access)
    - [References](#references)
 
-# Prerequisites
+## Prerequisites
 
 This image assumes that you are using a reverse proxy such as [jwilder/nginx-proxy](https://github.com/jwilder/nginx-proxy) and optionally the [Let's Encrypt Proxy Companion @ https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion](https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion) in order to serve your pages. However, it will run just fine on it's own if you map appropriate ports.
 
@@ -45,7 +45,7 @@ proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
 proxy_pass_header   Set-Cookie;
 ````
 
-# Installation
+## Installation
 
 Automated builds of the image are available on [Docker Hub](https://hub.docker.com/tiredofit/osticket) and is the recommended method of installation.
 
@@ -53,14 +53,14 @@ Automated builds of the image are available on [Docker Hub](https://hub.docker.c
 docker pull tiredofit/osticket
 ```
 
-# Quick Start
+### Quick Start
 
 * The quickest way to get started is using [docker-compose](https://docs.docker.com/compose/). See the examples folder for a working [docker-compose.yml](examples/docker-compose.yml) that can be modified for development or production use.
 
 * Set various [environment variables](#environment-variables) to understand the capabilities of this image.
 * Map [persistent storage](#data-volumes) for access to configuration and data files for backup.
 
-# Configuration
+## Configuration
 
 ### Data-Volumes
 
@@ -110,14 +110,14 @@ The following ports are exposed.
 |-----------|-------------|
 | `80`      | HTTP        |
 
-# Maintenance
+## Maintenance
 #### Resetting Password
 If you need to reset the OSTicket Admin use this query
 ````
 UPDATE `ost_staff` SET `passwd` = MD5( 'password' ) WHERE `username` = 'ostadmin';
 ````
 
-#### Shell Access
+### Shell Access
 
 For debugging and maintenance purposes you may want access the containers shell. 
 
@@ -125,7 +125,7 @@ For debugging and maintenance purposes you may want access the containers shell.
 docker exec -it (whatever your container name is e.g. osticket) bash
 ```
 
-# References
+## References
 
 * https://osticket.org
 

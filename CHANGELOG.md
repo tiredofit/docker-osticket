@@ -1,3 +1,9 @@
+## 3.2.1 2021-02-16 <leMail at github>
+
+   ### Fixed
+      - Removed erroneous argument in cron job
+
+
 ## 3.2.0 2020-06-15 <dave at tiredofit dot ca>
 
    ### Added
