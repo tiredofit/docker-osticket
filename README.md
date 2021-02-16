@@ -47,7 +47,7 @@ proxy_pass_header   Set-Cookie;
 
 ## Installation
 
-Automated builds of the image are available on [Docker Hub](https://hub.docker.com/tiredofit/osticket) and is the recommended method of installation.
+Automated builds of the image are available on [Docker Hub](https://hub.docker.com/r/tiredofit/osticket) and is the recommended method of installation.
 
 ```bash
 docker pull tiredofit/osticket
