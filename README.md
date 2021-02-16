@@ -12,7 +12,7 @@ Additional Components are PHP7 w/ APC, OpCache. MySQL Client is also available
 
 ## Authors
 
-- [Dave Conroy][https://github.com/tiredofit]
+- [Dave Conroy](https://github.com/tiredofit)
 
 ## Table of Contents
 
