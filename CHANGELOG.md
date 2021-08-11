@@ -1,3 +1,10 @@
+## 3.3.1 2021-08-11 <cdhowie@github>
+
+   ### Changed
+      - Cleanup composer cache
+      - Cleanup Debian package cache to reduce image size 
+
+
 ## 3.3.0 2021-08-11 <dave at tiredofit dot ca>
 
    ### Added
