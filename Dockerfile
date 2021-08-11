@@ -1,8 +1,8 @@
-FROM tiredofit/nginx-php-fpm:7.3
-LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
+FROM tiredofit/nginx-php-fpm:debian-7.4-buster
+LABEL maintainer="Dave Conroy (github.com/tiredofit)"
 
 ### Default Runtime Environment Variables
-ENV OSTICKET_VERSION=1.14.1 \
+ENV OSTICKET_VERSION=v1.15.3.1 \
     DB_PREFIX=ost_ \
     DB_PORT=3306 \
     CRON_INTERVAL=10 \
@@ -15,26 +15,28 @@ ENV OSTICKET_VERSION=1.14.1 \
     PHP_ENABLE_CREATE_SAMPLE_PHP=FALSE \
     PHP_ENALBLE_ZIP=TRUE \
     NGINX_WEBROOT=/www/osticket \
+    ZABBIX_AGENT_TYPE=classic \
     ZABBIX_HOSTNAME=osticket-app
 
 ### Dependency Installation
 RUN set -x && \
-    apk update && \
-    apk add \
-        git \
-        libmemcached-libs \
-        openldap \
-        openssl \
-        php7-pecl-memcached \
-        tar \
-        wget \
-        zlib \
-        && \
+    apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y \
+                  git \
+                  libldap-common \
+                  openssl \
+                  php${PHP_BASE}-memcached \
+                  tar \
+                  wget \
+                  zlib1g \
+                  && \
     \
 ### Download & Prepare OSTicket for Install
+    git clone  https://github.com/osTicket/osTicket /usr/src/osticket && \
+    git -C /usr/src/osticket checkout ${OSTICKET_VERSION} && \
     mkdir -p /assets/install && \
-    cd /assets/install && \
-    curl -ssL https://github.com/osTicket/osTicket/archive/v${OSTICKET_VERSION}.tar.gz | tar xvfz - --strip 1 -C /assets/install && \
+    mv /usr/src/osticket/* /assets/install && \
     chown -R nginx:www-data /assets/install && \
     chmod -R a+rX /assets/install/ && \
     chmod -R u+rw /assets/install/ && \

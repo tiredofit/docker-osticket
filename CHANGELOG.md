@@ -1,3 +1,11 @@
+## 3.3.0 2021-08-11 <dave at tiredofit dot ca>
+
+   ### Added
+      - Switch from Alpine to Debian base due to musl not supporting some functions OSTicket requires
+      - Upgrade OSTicket to 1.15.3
+      - PHP 7.4
+
+
 ## 3.2.1 2021-02-16 <leMail at github>
 
    ### Fixed

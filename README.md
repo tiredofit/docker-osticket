@@ -1,129 +1,172 @@
-# hub.docker.com/r/tiredofit/osticket
+# github.com/tiredofit/docker-osticket
 
-## Introduction
+[![GitHub release](https://img.shields.io/github/v/tag/tiredofit/docker-osticket?style=flat-square)](https://github.com/tiredofit/docker-osticket/releases/latest)
+[![Build Status](https://img.shields.io/github/workflow/status/tiredofit/docker-osticket/build?style=flat-square)](https://github.com/tiredofit/docker-osticket/actions?query=workflow%3Abuild)
+[![Docker Stars](https://img.shields.io/docker/stars/tiredofit/osticket.svg?style=flat-square&logo=docker)](https://hub.docker.com/r/tiredofit/osticket/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/tiredofit/osticket.svg?style=flat-square&logo=docker)](https://hub.docker.com/r/tiredofit/osticket/)
+[![Become a sponsor](https://img.shields.io/badge/sponsor-tiredofit-181717.svg?logo=github&style=flat-square)](https://github.com/sponsors/tiredofit)
+[![Paypal Donate](https://img.shields.io/badge/donate-paypal-00457c.svg?logo=paypal&style=flat-square)](https://www.paypal.me/tiredofit)
 
-Dockerfile to build a [OSTicket](https://www.osticket.org) container image.
+* * *
+## About
 
-This Container uses Alpine:Edge as a base.
-Additional Components are PHP7 w/ APC, OpCache. MySQL Client is also available
+This will build a Docker Image for [OSTicket](https://www.osticket.org) - An open source helpdesk / ticketing system.
 
+* Automatically installs and sets up installation upon first start
 
-[Changelog](CHANGELOG.md)
-
-## Authors
+## Maintainer
 
 - [Dave Conroy](https://github.com/tiredofit)
 
 ## Table of Contents
 
-- [Introduction](#introduction)
-    - [Changelog](CHANGELOG.md)
-- [Prerequisites](#prerequisites)
+
+- [About](#about)
+- [Maintainer](#maintainer)
+- [Table of Contents](#table-of-contents)
+- [Prerequisites and Assumptions](#prerequisites-and-assumptions)
 - [Installation](#installation)
-- [Quick Start](#quick-start)
+  - [Build from Source](#build-from-source)
+  - [Prebuilt Images](#prebuilt-images)
 - [Configuration](#configuration)
-    - [Database](#database)
-    - [Data Volumes](#data-volumes)
-    - [Environment Variables](#environmentvariables)   
-    - [Networking](#networking)
+  - [Quick Start](#quick-start)
+  - [Persistent Storage](#persistent-storage)
+  - [Environment Variables](#environment-variables)
+    - [Base Images used](#base-images-used)
+  - [Networking](#networking)
 - [Maintenance](#maintenance)
-    - [Shell Access](#shell-access)
-   - [References](#references)
+  - [Shell Access](#shell-access)
+- [Support](#support)
+  - [Usage](#usage)
+  - [Bugfixes](#bugfixes)
+  - [Feature Requests](#feature-requests)
+  - [Updates](#updates)
+- [License](#license)
+- [References](#references)
 
-## Prerequisites
-
-This image assumes that you are using a reverse proxy such as [jwilder/nginx-proxy](https://github.com/jwilder/nginx-proxy) and optionally the [Let's Encrypt Proxy Companion @ https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion](https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion) in order to serve your pages. However, it will run just fine on it's own if you map appropriate ports.
-
-This image also needs a Seperate MariaDB Container and optional memcached container.
-
-If using an SSL Reverse proxy the following must be added to the proxy! (vhost.d/sitename.domain.com)
-
-````
-proxy_set_header    Host    $host;
-proxy_set_header    X-Real-IP   $remote_addr;
-proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
-proxy_pass_header   Set-Cookie;
-````
+## Prerequisites and Assumptions
+*  Assumes you are using some sort of SSL terminating reverse proxy such as:
+   *  [Traefik](https://github.com/tiredofit/docker-traefik)
+   *  [Nginx](https://github.com/jc21/nginx-proxy-manager)
+   *  [Caddy](https://github.com/caddyserver/caddy)
+*  Requires access to a MySQL/MariaDB Server
 
 ## Installation
 
-Automated builds of the image are available on [Docker Hub](https://hub.docker.com/r/tiredofit/osticket) and is the recommended method of installation.
+### Build from Source
+Clone this repository and build the image with `docker build -t (imagename) .`
+
+### Prebuilt Images
+Builds of the image are available on [Docker Hub](https://hub.docker.com/r/tiredofit/osticket) and is the recommended method of installation.
 
 ```bash
-docker pull tiredofit/osticket
+docker pull tiredofit/osticket:(imagetag)
 ```
 
-### Quick Start
+The following image tags are available along with their tagged release based on what's written in the [Changelog](CHANGELOG.md):
 
-* The quickest way to get started is using [docker-compose](https://docs.docker.com/compose/). See the examples folder for a working [docker-compose.yml](examples/docker-compose.yml) that can be modified for development or production use.
-
-* Set various [environment variables](#environment-variables) to understand the capabilities of this image.
-* Map [persistent storage](#data-volumes) for access to configuration and data files for backup.
+| Container OS | Tag       |
+| ------------ | --------- |
+| Debian       | `:latest` |
 
 ## Configuration
 
-### Data-Volumes
+### Quick Start
 
+- The quickest way to get started is using [docker-compose](https://docs.docker.com/compose/). See the examples folder for a working [docker-compose.yml](examples/docker-compose.yml) that can be modified for development or production use.
+
+- Set various [environment variables](#environment-variables) to understand the capabilities of this image.
+- Map [persistent storage](#data-volumes) for access to configuration and data files for backup.
+- Make [networking ports](#networking) available for public access if necessary
+
+**The first boot can take from 2 minutes - 5 minutes depending on your CPU to setup the proper schemas.**
+
+- Login to the web server and enter in your admin email address, admin password and start configuring the system!
+
+### Persistent Storage
 The following directories are used for configuration and can be mapped for persistent storage.
 
-| Directory | Description |
-|-----------|-------------|
-| `/www/osticket` | (Not needed as we want to keep base clean, move to a custom/assets approach) Root Directory |
-| `/www/logs` | Nginx and php-fpm logfiles |
-
-### Database
-
-Create a linked MariaDB Database and the image will automatically populate the DB upon startup.
+| Directory       | Description                                                                                 |
+| --------------- | ------------------------------------------------------------------------------------------- |
+| `/www/html` | (Not needed as we want to keep base clean, move to a custom/assets approach) Root Directory |
+| `/www/logs`     | Nginx and php-fpm logfiles                                                                  |
 
 ### Environment Variables
 
-Along with the Environment Variables from the [Base image](https://hub.docker.com/r/tiredofit/alpine), and the [Nginx+PHP-FPM Engine](https://hub.docker.com/r/tiredofit/nginx-php-fpm) below is the complete list of available options that can be used to customize your installation.
+#### Base Images used
 
-| Parameter | Description |
-|-----------|-------------|
-| `CRON_PERIOD` | Amount of time in Minutes to Check Incoming Mail e.g. `10`|
-| `DB_HOST` | Database Host e.g. `osticket-db` |
-| `DB_NAME` | Database Name e.g. `osticket` |
-| `DB_USER` | Database User e.g. `osticket` |
-| `DB_PASS` | Database Password e.g. `password` |
-| `DB_PREFIX` | Database Prefix - Default: `ost_` |
-| `SMTP_HOST` | SMTP Host - Default: `localhost` |
-| `SMTP_PORT` | SMTP Host Port - Default: `25` |
-| `SMTP_FROM` | SMTP From Address - Default: `osticket@hostname.com` |
-| `SMTP_TLS` | Should TLS be used (`0`=no `1`=yes) - Default: `1` |
-| `SMTP_USER` | SMTP Authentication user - Default Blank |
-| `SMTP_PASS` | SMTP Authentication password - Default Blank |
-| `INSTALL_SECRET` | A Large and Random Installation String (Auto Generates on Install if empty)
-| `INSTALL_EMAIL` | Installer Email (Use different email then ADMIN_EMAIL)
-| `INSTALL_NAME` | Site Name
-| `ADMIN_FIRSTNAME` | First name of Admin User
-| `ADMIN_LASTNAME` | Last name of Admin User
-| `ADMIN_EMAIL` | Admin Email address (Make sure it is different than INSTALL_EMAIL)
-| `ADMIN_USER` | Admin Username
-| `ADMIN_PASS` | Admin Password
+This image relies on an [Alpine Linux](https://hub.docker.com/r/tiredofit/alpine) or [Debian Linux](https://hub.docker.com/r/tiredofit/debian) base image that relies on an [init system](https://github.com/just-containers/s6-overlay) for added capabilities. Outgoing SMTP capabilities are handlded via `msmtp`. Individual container performance monitoring is performed by [zabbix-agent](https://zabbix.org). Additional tools include: `bash`,`curl`,`less`,`logrotate`,`nano`,`vim`.
+
+Be sure to view the following repositories to understand all the customizable options:
+
+| Image                                                         | Description                            |
+| ------------------------------------------------------------- | -------------------------------------- |
+| [OS Base](https://github.com/tiredofit/docker-debian/)        | Customized Image based on Debian Linux |
+| [Nginx](https://github.com/tiredofit/docker-nginx/)           | Nginx webserver                        |
+| [PHP-FPM](https://github.com/tiredofit/docker-nginx-php-fpm/) | PHP Interpreter                        |
+
+
+| Parameter         | Description                                                                 | default                 |
+| ----------------- | --------------------------------------------------------------------------- | ----------------------- |
+| `INSTALL_SECRET`  | A Large and Random Installation String (Auto Generates on Install if empty) |                         |
+| `INSTALL_EMAIL`   | Installer Email (Use different email then ADMIN_EMAIL)                      | `helpdesk@example.com`  |
+| `INSTALL_NAME`    | Site Name                                                                   | `My Helpdesk`           |
+| `ADMIN_FIRSTNAME` | First name of Admin User                                                    |                         |
+| `ADMIN_LASTNAME`  | Last name of Admin User                                                     |                         |
+| `ADMIN_EMAIL`     | Admin Email address (Make sure it is different than INSTALL_EMAIL)          |                         |
+| `ADMIN_USER`      | Admin Username                                                              |                         |
+| `ADMIN_PASS`      | Admin Password                                                              |                         |
+| `CRON_PERIOD`     | Amount of time in Minutes to Check Incoming Mail                            | `10`                    |
+| `DB_HOST`         | Host or container name of MariaDB Server e.g. `osticket-db`                 |                         |
+| `DB_PORT`         | MariaDB Port                                                                | `3306`                  |
+| `DB_NAME`         | MariaDB Database name e.g. `osticket`                                       |                         |
+| `DB_USER`         | MariaDB Username for above Database e.g. `osticket`                         |                         |
+| `DB_PASS`         | MariaDB Password for above Database e.g. `password`                         |                         |
+| `DB_PREFIX`       | Prefix for Tables                                                           | `ost_`                  |
+| `SMTP_HOST`       | SMTP Host                                                                   | `postfix`               |
+| `SMTP_PORT`       | SMTP Host Port                                                              | `25`                    |
+| `SMTP_FROM`       | SMTP From Address                                                           | `osticket@hostname.com` |
+| `SMTP_TLS`        | Should TLS be used (`0`=no `1`=yes)                                         | `1`                     |
+| `SMTP_USER`       | SMTP Authentication user                                                    |                         |
+| `SMTP_PASS`       | SMTP Authentication password                                                |                         |
 
 ### Networking
 
 The following ports are exposed.
 
-| Port      | Description |
-|-----------|-------------|
-| `80`      | HTTP        |
+| Port | Description |
+| ---- | ----------- |
+| `80` | HTTP        |
 
+* * *
 ## Maintenance
-#### Resetting Password
-If you need to reset the OSTicket Admin use this query
-````
-UPDATE `ost_staff` SET `passwd` = MD5( 'password' ) WHERE `username` = 'ostadmin';
-````
 
 ### Shell Access
 
-For debugging and maintenance purposes you may want access the containers shell. 
+For debugging and maintenance purposes you may want access the containers shell.
 
-```bash
-docker exec -it (whatever your container name is e.g. osticket) bash
-```
+``bash
+docker exec -it (whatever your container name is) bash
+``
+## Support
+
+These images were built to serve a specific need in a production environment and gradually have had more functionality added based on requests from the community.
+### Usage
+- The [Discussions board](../../discussions) is a great place for working with the community on tips and tricks of using this image.
+- Consider [sponsoring me](https://github.com/sponsors/tiredofit) personalized support.
+### Bugfixes
+- Please, submit a [Bug Report](issues/new) if something isn't working as expected. I'll do my best to issue a fix in short order.
+
+### Feature Requests
+- Feel free to submit a feature request, however there is no guarantee that it will be added, or at what timeline.
+- Consider [sponsoring me](https://github.com/sponsors/tiredofit) regarding development of features.
+
+### Updates
+- Best effort to track upstream changes, More priority if I am actively using the image in a production environment.
+- Consider [sponsoring me](https://github.com/sponsors/tiredofit) for up to date releases.
+
+## License
+MIT. See [LICENSE](LICENSE) for more details.
 
 ## References
 
