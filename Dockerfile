@@ -83,8 +83,11 @@ RUN set -x && \
     chown nginx:www-data /var/log/msmtp.log && \
    \
 ## Cleanup
-    rm -rf /var/cache/apk/* /tmp/* && \
-    rm -rf /usr/src/*
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /tmp/* && \
+    rm -rf /usr/src/* && \
+    rm -rf /root/.composer/cache
 
 ### Add Files
 ADD install /
