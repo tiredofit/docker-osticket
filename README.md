@@ -88,7 +88,7 @@ The following directories are used for configuration and can be mapped for persi
 
 | Directory       | Description                                                                                 |
 | --------------- | ------------------------------------------------------------------------------------------- |
-| `/www/html` | (Not needed as we want to keep base clean, move to a custom/assets approach) Root Directory |
+| `/www/osticket` | (Not needed as we want to keep base clean, move to a custom/assets approach) Root Directory |
 | `/www/logs`     | Nginx and php-fpm logfiles                                                                  |
 
 ### Environment Variables
