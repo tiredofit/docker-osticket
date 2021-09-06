@@ -16,7 +16,7 @@ ENV OSTICKET_VERSION=v1.15.3.1 \
     PHP_ENALBLE_ZIP=TRUE \
     NGINX_WEBROOT=/www/osticket \
     ZABBIX_AGENT_TYPE=classic \
-    ZABBIX_HOSTNAME=osticket-app
+    CONTAINER_NAME=osticket-app
 
 ### Dependency Installation
 RUN set -x && \
@@ -54,7 +54,7 @@ RUN set -x && \
     \
 # Add Community Plugins
     ## Archiver
-    git clone https://github.com/clonemeagain/osticket-plugin-archiver /assets/install/include/plguins/archiver && \
+    git clone https://github.com/clonemeagain/osticket-plugin-archiver /assets/install/include/plugins/archiver && \
     ## Attachment Preview
     git clone https://github.com/clonemeagain/attachment_preview /assets/install/include/plugins/attachment-preview && \
     ## Auto Closer

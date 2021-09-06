@@ -15,7 +15,7 @@ services:
       - ./data/:/www/osticket
       - ./logs/:/www/logs
     environment:
-      - ZABBIX_HOSTNAME=osticket-app
+      - CONTAINER_NAME=osticket-app
 
       - CRON_PERIOD=10
 
@@ -56,7 +56,7 @@ services:
       - DB_USER=osticket
       - DB_PASS=password
 
-      - ZABBIX_HOSTNAME=osticket-db
+      - CONTAINER_NAME=osticket-db
     networks:
       - services
     restart: always
