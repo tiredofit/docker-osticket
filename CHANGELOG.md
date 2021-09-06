@@ -1,3 +1,8 @@
+## 3.3.3 2021-09-06 <eflukx@github>
+
+   ### Fixed
+      - Fix spelling mistake in Dockerfile for archiver plugin
+
 ## 3.3.2 2021-08-11 <cdhowie@github>
 
    ### Fixed
