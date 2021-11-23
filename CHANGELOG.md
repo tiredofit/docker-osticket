@@ -1,3 +1,10 @@
+## 3.4.0 2021-11-23 <dave at tiredofit dot ca>
+
+   ### Added
+      - OSTIcket 1.15.4
+      - Debian Bullseye base
+
+
 ## 3.3.3 2021-09-06 <eflukx@github>
 
    ### Fixed

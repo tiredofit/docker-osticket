@@ -1,8 +1,8 @@
-FROM tiredofit/nginx-php-fpm:debian-7.4-buster
+FROM docker.io/tiredofit/nginx-php-fpm:debian-7.4-bullseye
 LABEL maintainer="Dave Conroy (github.com/tiredofit)"
 
 ### Default Runtime Environment Variables
-ENV OSTICKET_VERSION=v1.15.3.1 \
+ENV OSTICKET_VERSION=v1.15.4 \
     DB_PREFIX=ost_ \
     DB_PORT=3306 \
     CRON_INTERVAL=10 \
