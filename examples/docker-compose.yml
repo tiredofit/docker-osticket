@@ -63,7 +63,7 @@ services:
 
   osticket-db-backup:
     container_name: osticket-db-backup
-    image: tiredofit/mariadb-backup
+    image: tiredofit/db-backup
     links:
       - osticket-db
     volumes:
