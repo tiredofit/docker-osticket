@@ -1,3 +1,9 @@
+## 3.4.1 2022-06-23 <dave at tiredofit dot ca>
+
+   ### Added
+      - Support tiredofit/nginx:6.0.0 and tiredofit/nginx-php-fpm:7.0.0 changes
+
+
 ## 3.4.0 2021-11-23 <dave at tiredofit dot ca>
 
    ### Added

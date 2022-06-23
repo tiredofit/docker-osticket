@@ -7,6 +7,7 @@ ENV OSTICKET_VERSION=v1.15.4 \
     DB_PORT=3306 \
     CRON_INTERVAL=10 \
     MEMCACHE_PORT=11211 \
+    PHP_ENABLE_CURL=TRUE \
     PHP_ENABLE_FILEINFO=TRUE \
     PHP_ENABLE_IMAP=TRUE \
     PHP_ENABLE_LDAP=TRUE \
@@ -14,9 +15,11 @@ ENV OSTICKET_VERSION=v1.15.4 \
     PHP_ENABLE_SESSION=TRUE \
     PHP_ENABLE_CREATE_SAMPLE_PHP=FALSE \
     PHP_ENALBLE_ZIP=TRUE \
+    NGINX_SITE_ENABLED=osticket \
     NGINX_WEBROOT=/www/osticket \
     ZABBIX_AGENT_TYPE=classic \
-    CONTAINER_NAME=osticket-app
+    IMAGE_NAME="tiredofit/osticket" \
+    IMAGE_REPO_URL="https://github.com/tiredofit/docker-osticket/"
 
 ### Dependency Installation
 RUN set -x && \
@@ -45,8 +48,8 @@ RUN set -x && \
     chmod 700 /assets/install/setup_hidden && \
     \
 # Setup Official Plugins
-    git clone -b develop https://github.com/osTicket/osTicket-plugins /usr/src/plugins && \
-    cd /usr/src/plugins && \
+    git clone -b develop https://github.com/osTicket/osTicket-plugins /usr/src/plugins
+RUN set -x && \    cd /usr/src/plugins && \
     php make.php hydrate && \
     for plugin in $(find * -maxdepth 0 -type d ! -path doc ! -path lib); do cp -r ${plugin} /assets/install/include/plugins; done; \
     cp -R /usr/src/plugins/*.phar /assets/install/include/plugins/ && \
