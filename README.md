@@ -1,7 +1,7 @@
 # github.com/tiredofit/docker-osticket
 
 [![GitHub release](https://img.shields.io/github/v/tag/tiredofit/docker-osticket?style=flat-square)](https://github.com/tiredofit/docker-osticket/releases/latest)
-[![Build Status](https://img.shields.io/github/workflow/status/tiredofit/docker-osticket/build?style=flat-square)](https://github.com/tiredofit/docker-osticket/actions?query=workflow%3Abuild)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/tiredofit/docker-osticket.git/main.yml?branch=main&style=flat-square)](https://github.com/tiredofit/docker-osticket.git/actions)
 [![Docker Stars](https://img.shields.io/docker/stars/tiredofit/osticket.svg?style=flat-square&logo=docker)](https://hub.docker.com/r/tiredofit/osticket/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/tiredofit/osticket.svg?style=flat-square&logo=docker)](https://hub.docker.com/r/tiredofit/osticket/)
 [![Become a sponsor](https://img.shields.io/badge/sponsor-tiredofit-181717.svg?logo=github&style=flat-square)](https://github.com/sponsors/tiredofit)
@@ -57,11 +57,17 @@ This will build a Docker Image for [OSTicket](https://www.osticket.org) - An ope
 Clone this repository and build the image with `docker build -t (imagename) .`
 
 ### Prebuilt Images
-Builds of the image are available on [Docker Hub](https://hub.docker.com/r/tiredofit/osticket) and is the recommended method of installation.
+Builds of the image are available on [Docker Hub](https://hub.docker.com/r/tiredofit/osticket)
 
 ```bash
-docker pull tiredofit/osticket:(imagetag)
+docker pull docker.io/tiredofdit/osticket:(imagetag)
 ```
+
+Builds of the image are also available on the [Github Container Registry](https://github.com/tiredofit/docker-osticket/pkgs/container/docker-osticket) 
+ 
+```
+docker pull ghcr.io/tiredofit/docker-osticket:(imagetag)
+``` 
 
 The following image tags are available along with their tagged release based on what's written in the [Changelog](CHANGELOG.md):
 
@@ -153,7 +159,7 @@ docker exec -it (whatever your container name is) bash
 These images were built to serve a specific need in a production environment and gradually have had more functionality added based on requests from the community.
 ### Usage
 - The [Discussions board](../../discussions) is a great place for working with the community on tips and tricks of using this image.
-- Consider [sponsoring me](https://github.com/sponsors/tiredofit) personalized support.
+- Consider [sponsoring me](https://github.com/sponsors/tiredofit) for personalized support
 ### Bugfixes
 - Please, submit a [Bug Report](issues/new) if something isn't working as expected. I'll do my best to issue a fix in short order.
 

@@ -93,4 +93,4 @@ RUN set -x && \    cd /usr/src/plugins && \
     rm -rf /root/.composer/cache
 
 ### Add Files
-ADD install /
+COPY install /
