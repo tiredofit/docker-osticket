@@ -108,7 +108,7 @@ jobs:
             sed -i "s|FROM docker.io/tiredofit/nginx-php-fpm:debian-.*-buster|FROM docker.io/tiredofit/nginx-php-fpm:debian-${RELEASE}-buster|g" Dockerfile
 
       - name: Build
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           builder: ${{ steps.buildx.outputs.name }}
           context: .
@@ -216,7 +216,7 @@ jobs:
               sed -i "s|FROM docker.io/tiredofit/nginx-php-fpm:debian-.*-buster|FROM docker.io/tiredofit/nginx-php-fpm:debian-${RELEASE}-buster|g" Dockerfile
 
       - name: Build
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           builder: ${{ steps.buildx.outputs.name }}
           context: .
@@ -323,7 +323,7 @@ jobs:
         run: |
           sed -i "s|FROM docker.io/tiredofit/nginx-php-fpm:debian-.*-buster|FROM docker.io/tiredofit/nginx-php-fpm:debian-${RELEASE}-buster|g" Dockerfile
       - name: Build
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           builder: ${{ steps.buildx.outputs.name }}
           context: .
