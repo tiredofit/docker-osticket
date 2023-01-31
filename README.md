@@ -1,7 +1,7 @@
 # github.com/tiredofit/docker-osticket
 
 [![GitHub release](https://img.shields.io/github/v/tag/tiredofit/docker-osticket?style=flat-square)](https://github.com/tiredofit/docker-osticket/releases/latest)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/tiredofit/docker-osticket.git/main.yml?branch=main&style=flat-square)](https://github.com/tiredofit/docker-osticket.git/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/tiredofit/docker-osticketmain.yml?branch=main&style=flat-square)](https://github.com/tiredofit/docker-osticket.git/actions)
 [![Docker Stars](https://img.shields.io/docker/stars/tiredofit/osticket.svg?style=flat-square&logo=docker)](https://hub.docker.com/r/tiredofit/osticket/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/tiredofit/osticket.svg?style=flat-square&logo=docker)](https://hub.docker.com/r/tiredofit/osticket/)
 [![Become a sponsor](https://img.shields.io/badge/sponsor-tiredofit-181717.svg?logo=github&style=flat-square)](https://github.com/sponsors/tiredofit)
