@@ -48,8 +48,8 @@ RUN set -x && \
     chmod 700 /assets/install/setup_hidden && \
     \
 # Setup Official Plugins
-    git clone -b develop https://github.com/osTicket/osTicket-plugins /usr/src/plugins
-RUN set -x && \    cd /usr/src/plugins && \
+    git clone -b develop https://github.com/osTicket/osTicket-plugins /usr/src/plugins && \
+    cd /usr/src/plugins && \
     php make.php hydrate && \
     for plugin in $(find * -maxdepth 0 -type d ! -path doc ! -path lib); do cp -r ${plugin} /assets/install/include/plugins; done; \
     cp -R /usr/src/plugins/*.phar /assets/install/include/plugins/ && \
