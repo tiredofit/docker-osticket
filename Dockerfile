@@ -1,8 +1,17 @@
-FROM docker.io/tiredofit/nginx-php-fpm:debian-7.4-bullseye
+ARG DISTRO=debian
+ARG DISTRO_VARIANT=bullseye
+ARG PHP_VERSION=7.4
+
+FROM docker.io/tiredofit/nginx-php-fpm:${PHP_VERSION}-${DISTRO}-${DISTRO_VARIANT}
 LABEL maintainer="Dave Conroy (github.com/tiredofit)"
 
-### Default Runtime Environment Variables
-ENV OSTICKET_VERSION=v1.15.4 \
+ARG OSTICKET_VERSION
+ARG OSTICKET_PLUGINS_VERSION
+
+ENV OSTICKET_VERSION=${OSTICKET_VERSION:-"v1.17.3"} \
+    OSTICKET_PLUGINS_VERSION=${OSTICKET_PLUGINS_VERSION:-"develop"} \
+    OSTICKET_REPO_URL=${OSTICKET_REPO_URL:-"https://github.com/osticket/osticket"} \
+    OSTICKET_PLUGINS_REPO_URL=${OSTICKET_REPO_URL:-"https://github.com/osTicket/osTicket-plugins"} \
     DB_PREFIX=ost_ \
     DB_PORT=3306 \
     CRON_INTERVAL=10 \
@@ -22,24 +31,22 @@ ENV OSTICKET_VERSION=v1.15.4 \
     IMAGE_REPO_URL="https://github.com/tiredofit/docker-osticket/"
 
 ### Dependency Installation
-RUN set -x && \
-    apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y \
-                  git \
-                  libldap-common \
-                  openssl \
-                  php${PHP_BASE}-memcached \
-                  tar \
-                  wget \
-                  zlib1g \
-                  && \
+RUN source /assets/functions/00-container && \
+    set -x && \
+    package update && \
+    package upgrade && \
+    package install  \
+                    git \
+                    libldap-common \
+                    openssl \
+                    php${PHP_VERSION}-memcached \
+                    tar \
+                    wget \
+                    zlib1g \
+                    && \
     \
 ### Download & Prepare OSTicket for Install
-    git clone  https://github.com/osTicket/osTicket /usr/src/osticket && \
-    git -C /usr/src/osticket checkout ${OSTICKET_VERSION} && \
-    mkdir -p /assets/install && \
-    mv /usr/src/osticket/* /assets/install && \
+    clone_git_repo "${OSTICKET_REPO_URL}" "${OSTICKET_VERSION}" /assets/install && \
     chown -R nginx:www-data /assets/install && \
     chmod -R a+rX /assets/install/ && \
     chmod -R u+rw /assets/install/ && \
@@ -48,8 +55,7 @@ RUN set -x && \
     chmod 700 /assets/install/setup_hidden && \
     \
 # Setup Official Plugins
-    git clone -b develop https://github.com/osTicket/osTicket-plugins /usr/src/plugins && \
-    cd /usr/src/plugins && \
+    clone_git_repo "${OSTICKET_PLUGINS_REPO_URL}" "${OSTICKET_PLUGINS_VERSION}" /usr/src/plugins && \
     php make.php hydrate && \
     for plugin in $(find * -maxdepth 0 -type d ! -path doc ! -path lib); do cp -r ${plugin} /assets/install/include/plugins; done; \
     cp -R /usr/src/plugins/*.phar /assets/install/include/plugins/ && \
@@ -57,40 +63,39 @@ RUN set -x && \
     \
 # Add Community Plugins
     ## Archiver
-    git clone https://github.com/clonemeagain/osticket-plugin-archiver /assets/install/include/plugins/archiver && \
+    clone_git_repo https://github.com/clonemeagain/osticket-plugin-archiver master /assets/install/include/plugins/archiver && \
     ## Attachment Preview
-    git clone https://github.com/clonemeagain/attachment_preview /assets/install/include/plugins/attachment-preview && \
+    clone_git_repo  https://github.com/clonemeagain/attachment_preview master /assets/install/include/plugins/attachment-preview && \
     ## Auto Closer
-    git clone https://github.com/clonemeagain/plugin-autocloser /assets/install/include/plugins/auto-closer && \
+    clone_git_repo  https://github.com/clonemeagain/plugin-autocloser master /assets/install/include/plugins/auto-closer && \
     ## Fetch Note
-    git clone https://github.com/bkonetzny/osticket-fetch-note /assets/install/include/plugins/fetch-note && \
+    clone_git_repo  https://github.com/bkonetzny/osticket-fetch-note master /assets/install/include/plugins/fetch-note && \
     ## Field Radio Buttons
-    git clone https://github.com/Micke1101/OSTicket-plugin-field-radiobuttons /assets/install/include/plugins/field-radiobuttons && \
+    clone_git_repo  https://github.com/Micke1101/OSTicket-plugin-field-radiobuttons master /assets/install/include/plugins/field-radiobuttons && \
     ## Mentioner
-    git clone https://github.com/clonemeagain/osticket-plugin-mentioner /assets/install/include/plugins/mentioner && \
+    clone_git_repo  https://github.com/clonemeagain/osticket-plugin-mentioner master /assets/install/include/plugins/mentioner && \
     ## Multi LDAP Auth
-    git clone https://github.com/philbertphotos/osticket-multildap-auth /assets/install/include/plugins/multi-ldap && \
+    clone_git_repo  https://github.com/philbertphotos/osticket-multildap-auth master /assets/install/include/plugins/multi-ldap && \
     mv /assets/install/include/plugins/multi-ldap/multi-ldap/* /assets/install/include/plugins/multi-ldap/ && \
     rm -rf /assets/install/include/plugins/multi-ldap/multi-ldap && \
     ## Prevent Autoscroll
-    git clone https://github.com/clonemeagain/osticket-plugin-preventautoscroll /assets/install/include/plugins/prevent-autoscroll && \
+    clone_git_repo  https://github.com/clonemeagain/osticket-plugin-preventautoscroll master /assets/install/include/plugins/prevent-autoscroll && \
     ## Rewriter
-    git clone https://github.com/clonemeagain/plugin-fwd-rewriter /assets/install/include/plugins/rewriter && \
+    clone_git_repo  https://github.com/clonemeagain/plugin-fwd-rewriter master /assets/install/include/plugins/rewriter && \
     ## Slack
-    git clone https://github.com/clonemeagain/osticket-slack /assets/install/include/plugins/slack && \
+    clone_git_repo  https://github.com/clonemeagain/osticket-slack master /assets/install/include/plugins/slack && \
     ## Teams (Microsoft)
-    git clone https://github.com/ipavlovi/osTicket-Microsoft-Teams-plugin /assets/install/include/plugins/teams && \
+    clone_git_repo  https://github.com/ipavlovi/osTicket-Microsoft-Teams-plugin master /assets/install/include/plugins/teams && \
     \
-### Log Miscellany Installation
+    ### Log Miscellany Installation
     touch /var/log/msmtp.log && \
-    chown nginx:www-data /var/log/msmtp.log && \
+    chown "${NGINX_USER}":"${NGINX_GROUP}" /var/log/msmtp.log && \
    \
 ## Cleanup
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    rm -rf /tmp/* && \
-    rm -rf /usr/src/* && \
-    rm -rf /root/.composer/cache
+    package cleanup && \
+    rm -rf \
+            /root/.composer \
+            /tmp/* \
+            /usr/src/*
 
-### Add Files
 COPY install /

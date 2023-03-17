@@ -5,16 +5,15 @@ services:
     image: tiredofit/osticket
     container_name: osticket-app
     labels:
+    labels:
       - traefik.enable=true
-      - traefik.frontend.rule=Host:url.example.com
-      - traefik.port=80
-      - traefik.protocol=http
-      - traefik.docker.network=proxy
-      - traefik.backend=osticket-app
+      - traefik.http.routers.osticket-app.rule=Host(`osticket.example.com`)
+      - traefik.http.services.osticket-app.loadbalancer.server.port=80
     volumes:
       - ./data/:/www/osticket
       - ./logs/:/www/logs
     environment:
+      - TIMEZONE=America/Vancouver
       - CONTAINER_NAME=osticket-app
 
       - CRON_PERIOD=10
@@ -46,29 +45,30 @@ services:
     restart: always
 
   osticket-db:
-    image: tiredofit/mariadb
+    image: tiredofit/mariadb:10.11
     container_name: osticket-db
     volumes:
-      - /var/local/db/osticket:/var/lib/mysql
+      - ./db:/var/lib/mysql
     environment:
+      - TIMEZONE=America/Vancouver
+      - CONTAINER_NAME=osticket-db
+
       - ROOT_PASS=securepassword
       - DB_NAME=osticket
       - DB_USER=osticket
       - DB_PASS=password
-
-      - CONTAINER_NAME=osticket-db
     networks:
       - services
     restart: always
 
   osticket-db-backup:
     container_name: osticket-db-backup
-    image: tiredofit/mariadb-backup
-    links:
-      - osticket-db
+    image: tiredofit/db-backup:latest
     volumes:
       - ./dbbackup:/backup
     environment:
+      - TIMEZONE=America/Vancouver
+      - CONTAINER_NAME=osticket-db-backup
       - DB_HOST=osticket-db
       - DB_TYPE=mariadb
       - DB_NAME=osticket
@@ -77,7 +77,6 @@ services:
       - DB_DUMP_FREQ=1440
       - DB_DUMP_BEGIN=0000
       - DB_CLEANUP_TIME=8640
-      - COMPRESSION=BZ
     networks:
       - services
     restart: always

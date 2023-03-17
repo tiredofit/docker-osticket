@@ -1,3 +1,10 @@
+## 3.5.0 2023-03-17 <dave at tiredofit dot ca>
+
+   ### Added
+      - Modernize Image
+      - OsTicket 1.17.3
+
+
 ## 3.4.1 2022-06-23 <dave at tiredofit dot ca>
 
    ### Added
