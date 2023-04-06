@@ -1,6 +1,6 @@
 ARG DISTRO=debian
 ARG DISTRO_VARIANT=bullseye
-ARG PHP_VERSION=7.4
+ARG PHP_VERSION=8.1
 
 FROM docker.io/tiredofit/nginx-php-fpm:${PHP_VERSION}-${DISTRO}-${DISTRO_VARIANT}
 LABEL maintainer="Dave Conroy (github.com/tiredofit)"
@@ -47,7 +47,7 @@ RUN source /assets/functions/00-container && \
     \
 ### Download & Prepare OSTicket for Install
     clone_git_repo "${OSTICKET_REPO_URL}" "${OSTICKET_VERSION}" /assets/install && \
-    chown -R nginx:www-data /assets/install && \
+    chown -R "${NGINX_USER}":"${NGINX_GROUP}" /assets/install && \
     chmod -R a+rX /assets/install/ && \
     chmod -R u+rw /assets/install/ && \
     mv /assets/install/setup /assets/install/setup_hidden && \
