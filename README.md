@@ -63,11 +63,11 @@ Builds of the image are available on [Docker Hub](https://hub.docker.com/r/tired
 docker pull docker.io/tiredofdit/osticket:(imagetag)
 ```
 
-Builds of the image are also available on the [Github Container Registry](https://github.com/tiredofit/docker-osticket/pkgs/container/docker-osticket) 
- 
+Builds of the image are also available on the [Github Container Registry](https://github.com/tiredofit/docker-osticket/pkgs/container/docker-osticket)
+
 ```
 docker pull ghcr.io/tiredofit/docker-osticket:(imagetag)
-``` 
+```
 
 The following image tags are available along with their tagged release based on what's written in the [Changelog](CHANGELOG.md):
 
@@ -120,9 +120,9 @@ Be sure to view the following repositories to understand all the customizable op
 | `ADMIN_FIRSTNAME` | First name of Admin User                                                    |                         |
 | `ADMIN_LASTNAME`  | Last name of Admin User                                                     |                         |
 | `ADMIN_EMAIL`     | Admin Email address (Make sure it is different than INSTALL_EMAIL)          |                         |
-| `ADMIN_USER`      | Admin Username                                                              |                         |
-| `ADMIN_PASS`      | Admin Password *Must be more than 5 characters*                                                             |                         |
-| `CRON_PERIOD`     | Amount of time in Minutes to Check Incoming Mail                            | `10`                    |
+| `ADMIN_USER`      | Admin Username *Must be more than 5 characters*                             |                         |
+| `ADMIN_PASS`      | Admin Password                                                              |                         |
+| `CRON_INTERVAL`   | Amount of time in Minutes to Check Incoming Mail                            | `10`                    |
 | `DB_HOST`         | Host or container name of MariaDB Server e.g. `osticket-db`                 |                         |
 | `DB_PORT`         | MariaDB Port                                                                | `3306`                  |
 | `DB_NAME`         | MariaDB Database name e.g. `osticket`                                       |                         |

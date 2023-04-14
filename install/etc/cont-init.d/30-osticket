@@ -9,18 +9,24 @@ check_service_initialized init 20-php-fpm
 ### Sanity Test
 sanity_db
 sanity_var ADMIN_PASS "Admin Password"
-if [ "$(wc -c "${ADMIN_PASS}")" -le 5 ] ; then
-    print_error "Admin passwords need to be 5 characters or greater. Exiting.."
-    exit 5
-fi
 sanity_var ADMIN_EMAIL "Admin Email"
 sanity_var ADMIN_USER "Admin Username"
+if [ "$(wc -c "${ADMIN_USER}")" -le 5 ] ; then
+    print_error "Admin user need to be 5 characters or greater. Exiting.."
+    exit 5
+fi
+
 sanity_var INSTALL_SECRET "Install Secret"
 
 db_ready mariadb
 
+# Bugfix ~ 3.5.3
+if [ -n "${CRON_PERIOD}" ] ; then
+    CRON_INTERVAL=${CRON_PERIOD}
+fi
+
 ### Adjust Runtime Variables
-sed -i "s#<CRON_PERIOD>#${CRON_PERIOD}/g" /assets/cron/osticket.txt
+sed -i "s#<CRON_INTERVAL>#${CRON_INTERVAL}/g" /assets/cron/osticket.txt
 sed -i "s#<WEBROOT>#${NGINX_WEBROOT}#g" /assets/setup/install.php
 
 ### Check to see if this is a new install, if yes copy information from assets create directories...

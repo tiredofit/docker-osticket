@@ -1,3 +1,10 @@
+## 3.5.3 2023-04-14 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Revert 3.5.2 and start doing 5 character checks on ADMIN_USER
+      - Fix a problem with CRON_INTERVAL not being used
+
+
 ## 3.5.2 2023-04-14 <dave at tiredofit dot ca>
 
    ### Added
