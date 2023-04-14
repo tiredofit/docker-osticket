@@ -1,3 +1,9 @@
+## 3.5.2 2023-04-14 <dave at tiredofit dot ca>
+
+   ### Added
+      - Add check for ADMIN_PASS size. Fail if <5 characters
+
+
 ## 3.5.1 2023-04-06 <dave at tiredofit dot ca>
 
    ### Added

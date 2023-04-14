@@ -121,7 +121,7 @@ Be sure to view the following repositories to understand all the customizable op
 | `ADMIN_LASTNAME`  | Last name of Admin User                                                     |                         |
 | `ADMIN_EMAIL`     | Admin Email address (Make sure it is different than INSTALL_EMAIL)          |                         |
 | `ADMIN_USER`      | Admin Username                                                              |                         |
-| `ADMIN_PASS`      | Admin Password                                                              |                         |
+| `ADMIN_PASS`      | Admin Password *Must be more than 5 characters*                                                             |                         |
 | `CRON_PERIOD`     | Amount of time in Minutes to Check Incoming Mail                            | `10`                    |
 | `DB_HOST`         | Host or container name of MariaDB Server e.g. `osticket-db`                 |                         |
 | `DB_PORT`         | MariaDB Port                                                                | `3306`                  |

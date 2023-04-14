@@ -9,6 +9,10 @@ check_service_initialized init 20-php-fpm
 ### Sanity Test
 sanity_db
 sanity_var ADMIN_PASS "Admin Password"
+if [ "$(wc -c "${ADMIN_PASS}")" -le 5 ] ; then
+    print_error "Admin passwords need to be 5 characters or greater. Exiting.."
+    exit 5
+fi
 sanity_var ADMIN_EMAIL "Admin Email"
 sanity_var ADMIN_USER "Admin Username"
 sanity_var INSTALL_SECRET "Install Secret"
