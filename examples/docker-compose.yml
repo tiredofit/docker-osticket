@@ -14,7 +14,7 @@ version: '3.7' services:
       - TIMEZONE=America/Vancouver
       - CONTAINER_NAME=osticket-app
 
-      - CRON_PERIOD=10
+      - CRON_INTERVAL=10
 
       - DB_HOST=osticket-db
       - DB_NAME=osticket
