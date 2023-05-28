@@ -11,6 +11,7 @@ sanity_db
 sanity_var ADMIN_PASS "Admin Password"
 sanity_var ADMIN_EMAIL "Admin Email"
 sanity_var ADMIN_USER "Admin Username"
+
 if [ "$(wc -c "${ADMIN_USER}")" -le 5 ] ; then
     print_error "Admin user need to be 5 characters or greater. Exiting.."
     exit 5
@@ -26,7 +27,7 @@ if [ -n "${CRON_PERIOD}" ] ; then
 fi
 
 ### Adjust Runtime Variables
-sed -i "s#<CRON_INTERVAL>#${CRON_INTERVAL}/g" /assets/cron/osticket.txt
+sed -i "s#<CRON_INTERVAL>#${CRON_INTERVAL}#g" /assets/cron/osticket.txt
 sed -i "s#<WEBROOT>#${NGINX_WEBROOT}#g" /assets/setup/install.php
 
 ### Check to see if this is a new install, if yes copy information from assets create directories...

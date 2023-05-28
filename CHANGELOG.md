@@ -1,3 +1,9 @@
+## 3.5.4 2023-05-27 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Fix for unterminated sed command
+
+
 ## 3.5.3 2023-04-14 <dave at tiredofit dot ca>
 
    ### Changed
