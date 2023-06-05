@@ -43,7 +43,7 @@ if [ ! -f "${NGINX_WEBROOT}"/index.php ] ; then
 fi
 
 # Automate installation
-silent php /assets/setup/install.php
+php /assets/setup/install.php
 
 ## Check Memcache Settings
 if [ -n "${MEMCACHE_HOST}" ]; then
