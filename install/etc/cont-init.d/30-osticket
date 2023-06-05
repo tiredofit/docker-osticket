@@ -12,7 +12,7 @@ sanity_var ADMIN_PASS "Admin Password"
 sanity_var ADMIN_EMAIL "Admin Email"
 sanity_var ADMIN_USER "Admin Username"
 
-if [ "$(wc -c "${ADMIN_USER}")" -le 5 ] ; then
+if [ "$(echo "${ADMIN_USER}" | wc -c)" -le 5 ] ; then
     print_error "Admin user need to be 5 characters or greater. Exiting.."
     exit 5
 fi
