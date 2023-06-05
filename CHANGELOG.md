@@ -1,3 +1,10 @@
+## 3.5.5 2023-06-05 <dekat@github>
+
+   ### Changed
+      - Fix for Admin name size check
+      - Show errors on installation
+
+
 ## 3.5.4 2023-05-27 <dave at tiredofit dot ca>
 
    ### Changed
