@@ -10,7 +10,7 @@
 * * *
 ## About
 
-This will build a Docker Image for [OSTicket](https://www.osticket.org) - An open source helpdesk / ticketing system.
+This will build a Docker Image for [OSTicket](https://www.osticket.com) - An open source helpdesk / ticketing system.
 
 * Automatically installs and sets up installation upon first start
 
