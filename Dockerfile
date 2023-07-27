@@ -8,7 +8,7 @@ LABEL maintainer="Dave Conroy (github.com/tiredofit)"
 ARG OSTICKET_VERSION
 ARG OSTICKET_PLUGINS_VERSION
 
-ENV OSTICKET_VERSION=${OSTICKET_VERSION:-"v1.17.3"} \
+ENV OSTICKET_VERSION=${OSTICKET_VERSION:-"v1.17.4"} \
     OSTICKET_PLUGINS_VERSION=${OSTICKET_PLUGINS_VERSION:-"develop"} \
     OSTICKET_REPO_URL=${OSTICKET_REPO_URL:-"https://github.com/osticket/osticket"} \
     OSTICKET_PLUGINS_REPO_URL=${OSTICKET_REPO_URL:-"https://github.com/osTicket/osTicket-plugins"} \

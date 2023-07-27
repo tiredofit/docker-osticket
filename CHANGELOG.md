@@ -1,3 +1,9 @@
+## 3.5.6 2023-07-27 <dave at tiredofit dot ca>
+
+   ### Added
+      - Os Ticket 1.17.4
+
+
 ## 3.5.5 2023-06-05 <dekat@github>
 
    ### Changed
