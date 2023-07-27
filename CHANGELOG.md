@@ -1,3 +1,9 @@
+## 3.5.7 2023-07-27 <dave at tiredofit dot ca>
+
+   ### Added
+      - OS Ticket 1.18
+
+
 ## 3.5.6 2023-07-27 <dave at tiredofit dot ca>
 
    ### Added
