@@ -1,3 +1,13 @@
+## 3.6.0 2023-07-28 <dave at tiredofit dot ca>
+
+   ### Added
+      - PHP 8.2 base
+
+   ### Changed
+      - Fix upstream issue with mysql command not being found due to changes in MariaDB client library
+      - Rework writing cron scheduler
+
+
 ## 3.5.7 2023-07-27 <dave at tiredofit dot ca>
 
    ### Added
