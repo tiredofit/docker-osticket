@@ -1,4 +1,3 @@
-version: '3.7'
 services:
 
   osticket-app:
@@ -72,7 +71,7 @@ services:
       - DB_TYPE=mariadb
       - DB_NAME=osticket
       - DB_USER=osticket
-      - DB_PASSWORD=userpassword
+      - DB_PASS=userpassword
       - DB_DUMP_FREQ=1440
       - DB_DUMP_BEGIN=0000
       - DB_CLEANUP_TIME=8640
