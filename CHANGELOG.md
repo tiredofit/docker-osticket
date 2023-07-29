@@ -1,3 +1,9 @@
+## 3.6.1 2023-07-29 <jaydio@github>
+
+   ### Changed
+      - Fix spelling mistake in Dockerfile when enabling Zip extension
+
+
 ## 3.6.0 2023-07-28 <dave at tiredofit dot ca>
 
    ### Added
