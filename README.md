@@ -10,7 +10,7 @@
 * * *
 ## About
 
-This will build a Docker Image for [OSTicket](https://www.osticket.org) - An open source helpdesk / ticketing system.
+This will build a Docker Image for [OSTicket](https://www.osticket.com) - An open source helpdesk / ticketing system.
 
 * Automatically installs and sets up installation upon first start
 
@@ -101,7 +101,7 @@ The following directories are used for configuration and can be mapped for persi
 
 #### Base Images used
 
-This image relies on an [Alpine Linux](https://hub.docker.com/r/tiredofit/alpine) or [Debian Linux](https://hub.docker.com/r/tiredofit/debian) base image that relies on an [init system](https://github.com/just-containers/s6-overlay) for added capabilities. Outgoing SMTP capabilities are handlded via `msmtp`. Individual container performance monitoring is performed by [zabbix-agent](https://zabbix.org). Additional tools include: `bash`,`curl`,`less`,`logrotate`,`nano`.
+This image relies on an [Alpine Linux](https://hub.docker.com/r/tiredofit/alpine) or [Debian Linux](https://hub.docker.com/r/tiredofit/debian) base image that relies on an [init system](https://github.com/just-containers/s6-overlay) for added capabilities. Outgoing SMTP capabilities are handlded via `msmtp`. Individual container performance monitoring is performed by [zabbix-agent](https://zabbix.com). Additional tools include: `bash`,`curl`,`less`,`logrotate`,`nano`.
 
 Be sure to view the following repositories to understand all the customizable options:
 
@@ -176,5 +176,5 @@ MIT. See [LICENSE](LICENSE) for more details.
 
 ## References
 
-* https://osticket.org
+* https://osticket.com
 
