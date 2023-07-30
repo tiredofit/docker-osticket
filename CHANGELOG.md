@@ -1,3 +1,9 @@
+## 3.6.2 2023-07-30 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Resolve issues with nginx configuration
+
+
 ## 3.6.1 2023-07-29 <jaydio@github>
 
    ### Changed
